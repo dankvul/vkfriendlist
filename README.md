@@ -28,7 +28,7 @@ class Config(object):
     (venv) vkfriendlist/$ export FLASK_APP=wsgi.py
 ````
 Run
-	`(venv) tg_exchange/$ gunicorn wsgi:app`
+	`(venv) vkfriendlist/$ gunicorn wsgi:app`
 
 # vkfriendlist
 This flask-app use webhook, so, you should firstly deploy source on remote server to fully run it. This app is ready to 
