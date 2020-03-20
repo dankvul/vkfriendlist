@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main_page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+
+    {% if authorized == False %}
+        <button type="button" class="btn btn-outline-primary" onclick="window.location.replace('/connect');">Log in</button>
+    {% else %}
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand">VkFriendList</a>
+            <div class="" style="float: right;">
+                {{ count }}
+                <span class="iconify" data-icon="fa-solid:user-friends" data-inline="false" style="margin-right: 20px;"></span> 
+                {{ client_data.first_name }} {{ client_data.last_name }}
+                <img class="rounded" src="{{ client_data.photo_50 }}">
+                
+            </div>
+        </nav>
+        <div class="row justify-content-center container-fluid" style="padding: 1em;">
+            <div class="col-md-7 justify-content-center">
+                <form class="form-inline d-flex justify-content-center md-form form-md mt-0" style="margin-bottom: 10%; ">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input class="form-control" id="search" type="text" placeholder="Write down first name"
+                        aria-label="Search">
+                    <div class="btn btn-outline-success" id="search_button" style="margin-left: 10px; margin-top: 3px; float: right; " type="submit">Search</div>
+                </form>
+                
+                {% if friends_data %}
+                    <hr>
+                    {% for current_friend in friends_data %}
+                        <div class="col-md-9 row" style="margin-bottom: 5px;">
+                            <img src="{{ current_friend.photo_100 }}" class="rounded-circle">
+                            <div style="margin-left: 15%; margin-top: 10px; font-size: 18px;">
+                                {{current_friend.first_name}} {{current_friend.last_name}} 
+                                {% if current_friend.university_name %}
+                                    <hr>
+                                    <div style="font-size: 15px; color: gray;">
+                                        {{current_friend.university_name}}
+                                    </div>  
+                                {% endif %}
+                            </div>
+                            
+                        </div>
+                        <hr>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center">
+                        <h3 style="color: gray; text-align: center;"> Your search did not match any friends </h3>    
+                    </div>
+                {% endif%}
+            </div>
+        </div>
+    {% endif %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+        <li style="color: red;">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+<script src="https://code.iconify.design/1/1.0.4/iconify.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+    function search(){
+        query = document.getElementById("search").value;
+        window.location.replace("/search/" + query);
+    };
+    $(document).keyup(function(event) {
+        if ($("#search").is(":focus") && event.key == "Enter") {
+            search();
+        }
+    });
+    $("#search_button").click(function(event) {
+        search();
+    });
+    
+</script>
+</body>
+</html>

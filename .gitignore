@@ -1,0 +1,10 @@
+venv/
+.env
+static/
+d
+dump.rdb
+__pycache__/
+app/__pycache__/
+.idea/
+.vscode/
+
